@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+      		adaptable="true"
+            objectClass="org.eclipse.core.resources.IFolder"
+            id="generateJavaBean.contribution1">
+         <action
+               label="createJavaBean"
+               class="generatejavabean.popup.actions.GenerateJavaBeanAction"
+               menubarPath="additions"
+               enablesFor="1"
+               icon="icons/sample.gif"
+               id="generateJavaBean.generateJavaBeanAction">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>

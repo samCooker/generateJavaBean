@@ -1,0 +1,6 @@
+1.Include the jars in a plugin:
+ *Use Import>File System to import the jar files into your plugin project, say in the /lib directory.
+ *Use "Add..." to add the jars to the classpath section of the plugin.xml>Runtime tab.
+ *Use "New..." to add "." library back (with no quotes, of course).
+ *make sure your binary build exports the new jar files on the plugin.xml>Build tab.
+ *on the project, use context menu>PDE Tools>Update Classpath to correctly add the jars to the eclipse project classpath.

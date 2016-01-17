@@ -1,0 +1,21 @@
+/*
+ * FileName:    $!{tabNameFmt}Repository
+ * Description:
+ * Company:     南宁超创信息工程有限公司
+ * Copyright:   ChaoChuang (c) 2015
+ * History:     $!{curDate} (Shicx) 1.0 Create
+ */
+
+package $!{package};
+
+
+import $!{beanPackage}.$!{tabNameFmt};
+import cn.com.chaochuang.common.data.repository.SimpleDomainRepository;
+
+/**
+ * @author Shicx
+ *
+ */
+public interface $!{tabNameFmt}Repository extends SimpleDomainRepository<$!{tabNameFmt}, Long> {
+
+}

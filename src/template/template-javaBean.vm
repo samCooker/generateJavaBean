@@ -1,0 +1,52 @@
+/*
+ * FileName:    SysDataChange.java
+ * Description:
+ * Company:     南宁超创信息工程有限公司
+ * Copyright:   ChaoChuang (c) 2015
+ * History:     $!{curDate} (Shicx) 1.0 Create
+ */
+
+package $!{package};
+
+import java.util.Date;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import cn.com.chaochuang.common.data.domain.LongIdEntity;
+
+/**
+ * @author Shicx
+ *
+ */
+@SuppressWarnings("serial")
+@Entity
+@AttributeOverrides({ @AttributeOverride(name = "id", column = @Column(name = "$!{primaryColName}")) })
+public class $!{tabNameFmt} extends LongIdEntity {   
+#foreach($columnDetail in ${columnList})
+    #if($!{columnDetail.columnType}&&$!{columnDetail.colNameFmt})
+    /***/
+       #if($!{columnDetail.columnType}=="Date")
+    @Temporal(TemporalType.TIMESTAMP)
+       #end
+    private $!{columnDetail.columnType} $!{columnDetail.colNameFmt};
+    #end
+#end
+
+#foreach($columnDetail in ${columnList})
+    #if($!{columnDetail.columnType}&&$!{columnDetail.colNameFmt})
+    public void set$!{columnDetail.upColNameFmt}($!{columnDetail.columnType} $!{columnDetail.colNameFmt}){
+        this.$!{columnDetail.colNameFmt}=$!{columnDetail.colNameFmt};
+    }
+    
+    public $!{columnDetail.columnType} get$!{columnDetail.upColNameFmt}(){
+        return $!{columnDetail.colNameFmt};
+    }
+    #end
+#end
+
+}
