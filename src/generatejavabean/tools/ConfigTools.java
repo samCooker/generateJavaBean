@@ -1,9 +1,9 @@
 /*
  * FileName:    ConfigTools.java
  * Description:
- * Company:     ƒœƒ˛≥¨¥¥–≈œ¢π§≥Ã”–œﬁπ´Àæ
+ * Company:     ÂçóÂÆÅË∂ÖÂàõ‰ø°ÊÅØÂ∑•Á®ãÊúâÈôêÂÖ¨Âè∏
  * Copyright:   ChaoChuang (c) 2016
- * History:     2016ƒÍ1‘¬10»’ (Administrator) 1.0 Create
+ * History:     2016Âπ¥1Êúà10Êó• (Administrator) 1.0 Create
  */
 
 package generatejavabean.tools;
@@ -20,6 +20,8 @@ import java.lang.reflect.Method;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 
 import generatejavabean.Activator;
 import generatejavabean.configbeans.ConnectionData;
@@ -30,139 +32,261 @@ import generatejavabean.configbeans.ConnectionData;
  */
 public class ConfigTools {
 
-	/** µ±«∞Œƒº˛º–∂‘œÛ */
-	public static IFolder folder;
-	public static final String CONN_DATA_SAVE_PATH = "/connectionData4Connection.properties";
-	public static final String CONN_DATA_SAVE_DESCRIPT = "database connection properties";
+    /** ÂΩìÂâçÊñá‰ª∂Â§πÂØπË±° */
+    public static IFolder      folder;
+    public static final String CONN_DATA_SAVE_PATH     = "/connectionData4Connection.properties";
+    public static final String CONN_DATA_SAVE_DESCRIPT = "database connection properties";
 
-	public static final String DB_TYPE_MYSQL = "MySQL";
-	public static final String DB_TYPE_ORCL = "Oracle";
+    public static final String DB_TYPE_MYSQL           = "MySQL";
+    public static final String DB_TYPE_ORCL            = "Oracle";
 
-	/**
-	 * ªÒ»°∞¸¬∑æ∂
-	 * 
-	 * @return
-	 */
-	public static String getFolderPath() {
-		if (folder != null) {
-			return folder.getLocation().toOSString();
-		}
-		return null;
-	}
+    /**
+     * Ëé∑ÂèñÂåÖË∑ØÂæÑ
+     * 
+     * @return
+     */
+    public static String getFolderPath() {
+        if (folder != null) {
+            return folder.getLocation().toOSString();
+        }
+        return null;
+    }
 
-	/**
-	 * ±£¥Ê¡¨Ω”–≈œ¢
-	 * 
-	 * @param connData
-	 */
-	public static void saveDbConfig(ConnectionData connData) {
-		if (connData == null) {
-			throw new RuntimeException("¡¨Ω”–≈œ¢Œ™ø’.");
-		}
-		Properties p = new Properties();
-		String filePath = Activator.getDefault().getStateLocation().toOSString() + CONN_DATA_SAVE_PATH;
-		OutputStream os = null;
-		Field[] fields = connData.getClass().getDeclaredFields();
-		// 1.ªÒ»°¡¨Ω”–≈œ¢£¨∑≈»Îproperties÷–
-		for (Field field : fields) {
-			boolean accessible = field.isAccessible();
-			// …Ë÷√ Ù–‘÷µø…∑√Œ 
-			if (!accessible) {
-				field.setAccessible(true);
-			}
-			try {
-				Object fieldVal = field.get(connData);
-				p.put(field.getName(), fieldVal == null ? "" : fieldVal.toString());
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-			// ª÷∏¥ Ù–‘µƒø…∑√Œ –‘
-			if (!accessible) {
-				field.setAccessible(false);
-			}
-		}
-		// 2.±£¥ÊµΩpropertiesŒƒº˛÷–
-		try {
-			os = new FileOutputStream(filePath);
-			p.store(os, CONN_DATA_SAVE_DESCRIPT);
-			os.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (os != null) {
-				try {
-					os.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+    public static void refreshLocal() {
+        try {
+            folder.refreshLocal(IResource.DEPTH_INFINITE, null);
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+    }
 
-	/**
-	 * ªÒ»°¡¨Ω”–≈œ¢
-	 * 
-	 * @return
-	 */
-	public static ConnectionData getDbConfig() {
-		ConnectionData connData = new ConnectionData();
-		String filePath = Activator.getDefault().getStateLocation().toOSString() + CONN_DATA_SAVE_PATH;
-		File propertiesFile = new File(filePath);
-		if (propertiesFile.exists()) {
-			Properties p = new Properties();
-			try {
-				p.load(new FileInputStream(propertiesFile));
-				Field[] fields = connData.getClass().getDeclaredFields();
-				for (Field field : fields) {
-					try {
-						Method method = connData.getClass().getMethod(parSetName(field.getName()), field.getType());
-						method.invoke(connData, p.getProperty(field.getName()));
-					} catch (NoSuchMethodException e) {
-						e.printStackTrace();
-					} catch (SecurityException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return connData;
-	}
+    /**
+     * Ê†πÊçÆÂåÖË∑ØÂæÑËé∑ÂèñÂåÖÂêç
+     * 
+     * @param folderPath
+     * @return
+     */
+    public static String getPackageName(String folderPath) {
+        if (folderPath != null && folderPath.trim() != "") {
+            StringBuilder builder = new StringBuilder("");
+            String[] paths = folderPath.split("\\\\");
+            int start = 1;
+            for (int i = 0; i < paths.length; ++i) {
+                if ("src".equals(paths[i])) {
+                    start = i + 1;
+                }
+                if ("base".equals(paths[i])) {
+                    start = i + 1;
+                }
+                // mavenË∑ØÂæÑ
+                if ("java".equals(paths[i])) {
+                    start = i + 1;
+                }
+            }
+            for (int i = start; i < paths.length; i++) {
+                builder.append(paths[i] + ".");
+            }
+            if (builder.lastIndexOf(".") != -1) {
+                builder.deleteCharAt(builder.lastIndexOf("."));
+            }
+            return builder.toString();
+        }
 
-	/**
-	 * ∆¥Ω”ƒ≥ Ù–‘µƒ get∑Ω∑®
-	 * 
-	 * @param fieldName
-	 * @return String
-	 */
-	public static String parGetName(String fieldName) {
-		if (null == fieldName || "".equals(fieldName)) {
-			return null;
-		}
-		return "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-	}
+        return null;
+    }
 
-	/**
-	 * ∆¥Ω”‘⁄ƒ≥ Ù–‘µƒ set∑Ω∑®
-	 * 
-	 * @param fieldName
-	 * @return String
-	 */
-	public static String parSetName(String fieldName) {
-		if (null == fieldName || "".equals(fieldName)) {
-			return null;
-		}
-		return "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-	}
+    /**
+     * ÊõøÊç¢ÂåÖË∑ØÂæÑÔºåÂ¶Ç aaa.bbb.ccc ÊõøÊç¢cccÊàêddd ==> aaa.bbb.ddd
+     * 
+     * @param packageName
+     * @param replaceName
+     * @return
+     */
+    public static String replaceLastPackageName(String packageName, String replaceName) {
+        if (packageName == null) {
+            return null;
+        }
+        int i = packageName.lastIndexOf(".");
+        if (i == -1) {
+            return packageName + "." + replaceName;
+        }
+        return packageName.substring(0, i + 1) + replaceName;
+    }
+
+    /**
+     * ‰øùÂ≠òËøûÊé•‰ø°ÊÅØ
+     * 
+     * @param connData
+     */
+    public static void saveDbConfig(ConnectionData connData) {
+        if (connData == null) {
+            throw new RuntimeException("ËøûÊé•‰ø°ÊÅØ‰∏∫Á©∫.");
+        }
+        Properties p = new Properties();
+        String filePath = Activator.getDefault().getStateLocation().toOSString() + CONN_DATA_SAVE_PATH;
+        OutputStream os = null;
+        Field[] fields = connData.getClass().getDeclaredFields();
+        // 1.Ëé∑ÂèñËøûÊé•‰ø°ÊÅØÔºåÊîæÂÖ•properties‰∏≠
+        for (Field field : fields) {
+            boolean accessible = field.isAccessible();
+            // ËÆæÁΩÆÂ±ûÊÄßÂÄºÂèØËÆøÈóÆ
+            if (!accessible) {
+                field.setAccessible(true);
+            }
+            try {
+                Object fieldVal = field.get(connData);
+                p.put(field.getName(), fieldVal == null ? "" : fieldVal.toString());
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            // ÊÅ¢Â§çÂ±ûÊÄßÁöÑÂèØËÆøÈóÆÊÄß
+            if (!accessible) {
+                field.setAccessible(false);
+            }
+        }
+        // 2.‰øùÂ≠òÂà∞propertiesÊñá‰ª∂‰∏≠
+        try {
+            os = new FileOutputStream(filePath);
+            p.store(os, CONN_DATA_SAVE_DESCRIPT);
+            os.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * Ëé∑ÂèñËøûÊé•‰ø°ÊÅØ
+     * 
+     * @return
+     */
+    public static ConnectionData getDbConfig() {
+        ConnectionData connData = new ConnectionData();
+        String filePath = Activator.getDefault().getStateLocation().toOSString() + CONN_DATA_SAVE_PATH;
+        File propertiesFile = new File(filePath);
+        if (propertiesFile.exists()) {
+            Properties p = new Properties();
+            try {
+                p.load(new FileInputStream(propertiesFile));
+                Field[] fields = connData.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    try {
+                        Method method = connData.getClass().getMethod(parSetName(field.getName()), field.getType());
+                        method.invoke(connData, p.getProperty(field.getName()));
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return connData;
+    }
+
+    /**
+     * ÊãºÊé•ÊüêÂ±ûÊÄßÁöÑ getÊñπÊ≥ï
+     * 
+     * @param fieldName
+     * @return String
+     */
+    public static String parGetName(String fieldName) {
+        if (null == fieldName || "".equals(fieldName)) {
+            return null;
+        }
+        return "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+    }
+
+    /**
+     * ÊãºÊé•Âú®ÊüêÂ±ûÊÄßÁöÑ setÊñπÊ≥ï
+     * 
+     * @param fieldName
+     * @return String
+     */
+    public static String parSetName(String fieldName) {
+        if (null == fieldName || "".equals(fieldName)) {
+            return null;
+        }
+        return "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+    }
+
+    /**
+     * Â∞ÜÊï∞ÊçÆÂ∫ìÁöÑÂêçÁß∞ËΩ¨ÊàêÈ©ºÂ≥∞ÂëΩÂêçÁöÑÊ†ºÂºèÔºåÂ¶Çtable_name==>tableName
+     * 
+     * @param string
+     * @return
+     */
+    public static String toJavaBeanName(String name) {
+        if (name == null || name.trim() == "") {
+            return null;
+        }
+        name = name.toLowerCase();
+        String[] sns = name.split("_");
+        if (sns.length > 0) {
+            StringBuffer sb = new StringBuffer(sns[0]);
+            for (int i = 1; i < sns.length; i++) {
+                sb.append(upperFirstChar(sns[i]));
+            }
+            return sb.toString();
+        }
+        return null;
+    }
+
+    /**
+     * Â∞ÜÊï∞ÊçÆÂ∫ìÁöÑÂêçÁß∞ËΩ¨ÊàêÈ©ºÂ≥∞ÂëΩÂêçÁöÑÊ†ºÂºèÔºåÂ¶Çtable_name==>TableName
+     * 
+     * @param string
+     * @return
+     */
+    public static String toJavaClassName(String name) {
+        if (name == null || name.trim() == "") {
+            return null;
+        }
+        name = name.toLowerCase();
+        String[] sns = name.split("_");
+        if (sns.length > 0) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < sns.length; i++) {
+                sb.append(upperFirstChar(sns[i]));
+            }
+            return sb.toString();
+        }
+        return null;
+    }
+
+    /**
+     * È¶ñÂ≠óÊØçÂ§ßÂÜô
+     * 
+     * @param src
+     * @return
+     */
+    public static String upperFirstChar(String src) {
+        if (src == null || src.length() == 0) {
+            return "";
+        }
+        if (src.length() == 1) {
+            return src.toUpperCase();
+        }
+        return src.substring(0, 1).toUpperCase().concat(src.substring(1));
+    }
+
 }

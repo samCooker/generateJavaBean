@@ -1,71 +1,80 @@
 package generatejavabean.tools;
 
-import java.util.Properties;
+import java.io.IOException;
 
-import org.apache.velocity.Template;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.app.VelocityEngine;
+import org.beetl.core.Configuration;
+import org.beetl.core.GroupTemplate;
+import org.beetl.core.Template;
+import org.beetl.core.resource.ClasspathResourceLoader;
 
 public class TemplateTool {
 
-	public static final String PROPERTY_PATH_TYPE = "file.resource.loader.class";
-	public static final String PROPERTY_PATH_VAL = "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader";
-	public static final String ENCODING = "utf-8";
-	public static final String TEMPLATE_PATH_BEAN = "template/template-javaBean.vm";
-	public static final String TEMPLATE_PATH_REPOSITORY = "template/template-repository.vm";
-	public static final String TEMPLATE_PATH_SERVICE = "template/template-service.vm";
-	public static final String TEMPLATE_PATH_SERVICEIMPL = "template/template-serviceImpl.vm";
+    public static final String      ENCODING                  = "utf-8";
+    public static final String      DEFAULT_BEAN_FOLDER       = "domain";
+    public static final String      DEFAULT_REPOSITORY_FOLDER = "repository";
+    public static final String      DEFAULT_SERVICE_FOLDER    = "service";
+    public static final String      TEMPLATE_PATH_BEAN        = "/template/template-javaBean.js";
+    public static final String      TEMPLATE_PATH_REPOSITORY  = "/template/template-repository.js";
+    public static final String      TEMPLATE_PATH_SERVICE     = "/template/template-service.js";
+    public static final String      TEMPLATE_PATH_SERVICEIMPL = "/template/template-serviceImpl.js";
 
-	/**
-	 * ³õÊ¼»¯Ä£°æÅäÖÃ¼°´´½¨Éú³ÉÎÄ¼şµÄ¸ùÄ¿Â¼
-	 */
-	public static void initVelocityProperties() {
-		Properties p = new Properties();
-		// »ñÈ¡ÀàÂ·¾¶
-		p.setProperty(PROPERTY_PATH_TYPE, PROPERTY_PATH_VAL);
-		p.setProperty(Velocity.ENCODING_DEFAULT, ENCODING);
-		p.setProperty(Velocity.INPUT_ENCODING, ENCODING);
-		p.setProperty(Velocity.OUTPUT_ENCODING, ENCODING);
-		Velocity.init(p);
-	}
+    private ClasspathResourceLoader resourceLoader            = null;
+    private Configuration           cfg                       = null;
+    private GroupTemplate           gt                        = null;
 
-	public static VelocityEngine getVelocityEngine() {
-		Properties properties = new Properties();
-		// ÉèÖÃvelocity×ÊÔ´¼ÓÔØ·½Ê½Îªclass
-		properties.setProperty("resource.loader", "class");
-		// ÉèÖÃvelocity×ÊÔ´¼ÓÔØ·½Ê½ÎªfileÊ±µÄ´¦ÀíÀà
-		properties.setProperty("class.resource.loader.class",
-				"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-		return new VelocityEngine(properties);
-	}
+    public TemplateTool() {
+        super();
+        initTemplate();
+    }
 
-	/**
-	 * ³õÊ¼»¯RepositoryÄ£°æ¼°Éú³ÉµÄÎÄ¼şÂ·¾¶
-	 * 
-	 * @return
-	 */
-	public static Template initRepositoryTemplateAndFilePath() {
-		initVelocityProperties();
-		return Velocity.getTemplate(TEMPLATE_PATH_REPOSITORY);
-	}
+    /**
+     * åˆå§‹åŒ–æ¨¡æ¿(å¯è‡ªå®šä¹‰æ¨¡æ¿åŸºç¡€é…ç½®ç­‰ä¿¡æ¯)
+     */
+    public void initTemplate() {
+        this.resourceLoader = new ClasspathResourceLoader();
+        try {
+            this.cfg = Configuration.defaultConfiguration();
+            this.cfg.setCharset(ENCODING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.gt = new GroupTemplate(resourceLoader, cfg);
 
-	/**
-	 * ³õÊ¼»¯serviceÄ£°æ¼°Éú³ÉµÄÎÄ¼şÂ·¾¶
-	 * 
-	 * @return
-	 */
-	public static Template initServiceTemplateAndFilePath() {
-		initVelocityProperties();
-		return Velocity.getTemplate(TEMPLATE_PATH_SERVICE);
-	}
+    }
 
-	/**
-	 * ³õÊ¼»¯serviceImplÄ£°æ¼°Éú³ÉµÄÎÄ¼şÂ·¾¶
-	 * 
-	 * @return
-	 */
-	public static Template initServiceImplTemplateAndFilePath() {
-		initVelocityProperties();
-		return Velocity.getTemplate(TEMPLATE_PATH_SERVICEIMPL);
-	}
+    /**
+     * è·å–javabeanæ¨¡æ¿
+     * 
+     * @return
+     */
+    public Template getTemplate4Bean() {
+        return this.gt.getTemplate(TEMPLATE_PATH_BEAN);
+    }
+
+    /**
+     * è·å–repositoryæ¨¡æ¿
+     * 
+     * @return
+     */
+    public Template getTemplate4Repository() {
+        return this.gt.getTemplate(TEMPLATE_PATH_REPOSITORY);
+    }
+
+    /**
+     * è·å–serviceæ¨¡æ¿
+     * 
+     * @return
+     */
+    public Template getTemplate4Service() {
+        return this.gt.getTemplate(TEMPLATE_PATH_SERVICE);
+    }
+
+    /**
+     * è·å–serviceImplæ¨¡æ¿
+     * 
+     * @return
+     */
+    public Template getTemplate4ServiceImpl() {
+        return this.gt.getTemplate(TEMPLATE_PATH_SERVICEIMPL);
+    }
 }

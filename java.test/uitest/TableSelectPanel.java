@@ -10,18 +10,19 @@ import generatejavabean.ui.SelectTablePanel;
 
 public class TableSelectPanel {
 
-	public static void main(String[] args) {
-		JFrame mainFrame = new JFrame(GenerateJavaBeanAction.MAIN_TITLE);
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		CardLayout cardLayout = new CardLayout();
-		DbConnPanel panel1 = new DbConnPanel();
-		SelectTablePanel panel2 = new SelectTablePanel();
-		mainFrame.getContentPane().setLayout(cardLayout);
-		mainFrame.getContentPane().add(panel1, GenerateJavaBeanAction.DB_PANEL_NAME);
-		mainFrame.getContentPane().add(panel2, GenerateJavaBeanAction.TABLE_PANEL_NAME);
-		mainFrame.pack();
-		mainFrame.setVisible(true);
-		// Ã¿´Î¶¼ÏÔÊ¾Á¬½ÓÊý¾Ý¿âµÄÃæ°å
-		cardLayout.show(mainFrame.getContentPane(), GenerateJavaBeanAction.DB_PANEL_NAME);
-	}
+    public static void main(String[] args) {
+        JFrame mainFrame = new JFrame(GenerateJavaBeanAction.MAIN_TITLE);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setLocationRelativeTo(null);
+        CardLayout cardLayout = new CardLayout();
+        DbConnPanel panel1 = new DbConnPanel();
+        SelectTablePanel panel2 = new SelectTablePanel();
+        mainFrame.getContentPane().setLayout(cardLayout);
+        mainFrame.getContentPane().add(panel1, GenerateJavaBeanAction.DB_PANEL_NAME);
+        mainFrame.getContentPane().add(panel2, GenerateJavaBeanAction.TABLE_PANEL_NAME);
+        mainFrame.pack();
+        mainFrame.setVisible(true);
+        // Ã¿ï¿½Î¶ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½
+        cardLayout.show(mainFrame.getContentPane(), GenerateJavaBeanAction.DB_PANEL_NAME);
+    }
 }

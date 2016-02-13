@@ -9,12 +9,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.ajdt.core;bundle-version="2.2.4"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: libs/mysql-connector-java-5.1.18-bin.jar,
  libs/ojdbc14.jar,
- libs/velocity-1.7.jar,
- libs/commons-collections-3.2.1.jar,
- libs/commons-lang-2.4.jar,
- libs/commons-logging.jar,
- .
+ .,
+ libs/beetl-2.2.13.jar

@@ -13,7 +13,7 @@
                class="generatejavabean.popup.actions.GenerateJavaBeanAction"
                menubarPath="additions"
                enablesFor="1"
-               icon="icons/sample.gif"
+               icon="icons/icon-1.png"
                id="generateJavaBean.generateJavaBeanAction">
          </action>
       </objectContribution>

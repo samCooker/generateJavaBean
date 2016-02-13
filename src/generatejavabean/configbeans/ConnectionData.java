@@ -1,9 +1,9 @@
 /*
  * FileName:    ConnectionData.java
  * Description:
- * Company:     ÄÏÄş³¬´´ĞÅÏ¢¹¤³ÌÓĞÏŞ¹«Ë¾
+ * Company:     å—å®è¶…åˆ›ä¿¡æ¯å·¥ç¨‹æœ‰é™å…¬å¸
  * Copyright:   ChaoChuang (c) 2016
- * History:     2016Äê1ÔÂ10ÈÕ (Administrator) 1.0 Create
+ * History:     2016å¹´1æœˆ10æ—¥ (Administrator) 1.0 Create
  */
 
 package generatejavabean.configbeans;
@@ -11,105 +11,104 @@ package generatejavabean.configbeans;
 /**
  * @author Administrator
  * 
- *         Êı¾İ¿âÁ¬½Ó²ÎÊı£¬»á±£´æÔÚÎÄ¼şÖĞ£¬Ã¿´Î´ò¿ª¶Ô»°¿ò¶¼´ÓÎÄ¼ş»ñÈ¡¸Ã²ÎÊıÌîÈë¶Ô»°¿òÖĞ
+ *         æ•°æ®åº“è¿æ¥å‚æ•°ï¼Œä¼šä¿å­˜åœ¨æ–‡ä»¶ä¸­ï¼Œæ¯æ¬¡æ‰“å¼€å¯¹è¯æ¡†éƒ½ä»æ–‡ä»¶è·å–è¯¥å‚æ•°å¡«å…¥å¯¹è¯æ¡†ä¸­
  */
 public class ConnectionData {
 
-	/** Êı¾İ¿âÀàĞÍ */
-	private String dbType;
-	/** Á¬½ÓµØÖ· */
-	private String url;
-	/** ÓÃ»§Ãû */
-	private String userName;
-	/** ±í¿Õ¼äÃû */
-	private String schemaName;
-	/** ÃÜÂë */
-	private String pwd;
+    /** æ•°æ®åº“ç±»å‹ */
+    private String dbType;
+    /** è¿æ¥åœ°å€ */
+    private String url;
+    /** ç”¨æˆ·å */
+    private String userName;
+    /** è¡¨ç©ºé—´å */
+    private String schemaName;
+    /** å¯†ç  */
+    private String pwd;
 
-	/**
-	 * @return the dbType
-	 */
-	public String getDbType() {
-		return dbType;
-	}
+    /**
+     * @return the dbType
+     */
+    public String getDbType() {
+        return dbType;
+    }
 
-	/**
-	 * @param dbType
-	 *            the dbType to set
-	 */
-	public void setDbType(String dbType) {
-		this.dbType = dbType;
-	}
+    /**
+     * @param dbType
+     *            the dbType to set
+     */
+    public void setDbType(String dbType) {
+        this.dbType = dbType;
+    }
 
-	/**
-	 * @return the url
-	 */
-	public String getUrl() {
-		return url;
-	}
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
 
-	/**
-	 * @param url
-	 *            the url to set
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    /**
+     * @param url
+     *            the url to set
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	/**
-	 * @return the userName
-	 */
-	public String getUserName() {
-		return userName;
-	}
+    /**
+     * @return the userName
+     */
+    public String getUserName() {
+        return userName;
+    }
 
-	/**
-	 * @param userName
-	 *            the userName to set
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    /**
+     * @param userName
+     *            the userName to set
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	/**
-	 * @return the schemaName
-	 */
-	public String getSchemaName() {
-		return schemaName;
-	}
+    /**
+     * @return the schemaName
+     */
+    public String getSchemaName() {
+        return schemaName;
+    }
 
-	/**
-	 * @param schemaName
-	 *            the schemaName to set
-	 */
-	public void setSchemaName(String schemaName) {
-		this.schemaName = schemaName;
-	}
+    /**
+     * @param schemaName
+     *            the schemaName to set
+     */
+    public void setSchemaName(String schemaName) {
+        this.schemaName = schemaName;
+    }
 
-	/**
-	 * @return the pwd
-	 */
-	public String getPwd() {
-		return pwd;
-	}
+    /**
+     * @return the pwd
+     */
+    public String getPwd() {
+        return pwd;
+    }
 
-	/**
-	 * @param pwd
-	 *            the pwd to set
-	 */
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
+    /**
+     * @param pwd
+     *            the pwd to set
+     */
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
 
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "ConnectionData [dbType=" + dbType + ", url=" + url + ", userName=" + userName + ", schemaName="
-				+ schemaName + ", pwd=" + pwd + "]";
-	}
+    /**
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "ConnectionData [dbType=" + dbType + ", url=" + url + ", userName=" + userName + ", schemaName=" + schemaName + ", pwd=" + pwd + "]";
+    }
 
 }
